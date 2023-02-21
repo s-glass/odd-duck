@@ -13,6 +13,4 @@ Link for accessible color schemes: [https://venngage.com/tools/accessible-color-
 
 ## Most Recent Screenshot of Lighthouse Accessibility Score
 
-![lighthouse score](lighthouse_lab11.png)
-
-Hello!
+![lighthouse score](lighthouse-lab11.png)
