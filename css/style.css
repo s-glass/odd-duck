@@ -1,16 +1,27 @@
 body {
-  background-color: #212529;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #c0efdf;
+  font-family: 'Amaranth', sans-serif;
 }
 
 h1 {
   text-align: center;
-  background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+  background: #4f1cea;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Exo 2', sans-serif;
+  font-family: 'Amaranth', sans-serif;
   font-size: 4em;
   padding: 50px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  text-align: center;
+  background: #0362c2;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Amaranth', sans-serif;
+  font-size: 2.5em;
+  padding-bottom: 50px;
   margin-bottom: 50px;
 }
 
@@ -23,9 +34,12 @@ h1 {
 
 
 ul {
-  color: #fff;
+  color: #2546F0;
   width: max-content;
   margin: auto;
+  font-family: 'Amaranth', sans-serif;
+  font-size: 25px;
+  padding: 20px;
 }
 
 li {
@@ -38,38 +52,29 @@ img {
   width: 400px;
   border-style: solid;
   border-width: 4px;
-  border-image: linear-gradient(
-    hsl(224, 85%, 66%),
-    hsl(269, 85%, 66%),
-    hsl(314, 85%, 66%),
-    hsl(359, 85%, 66%),
-    hsl(44, 85%, 66%),
-    hsl(89, 85%, 66%),
-    hsl(134, 85%, 66%),
-    hsl(179, 85%, 66%)
-  ) 1;
-
+  border-color: #00B4C5;
 }
 
-#show-results-btn {
-  width: max-content;
-  font-family: 'Exo 2', sans-serif;
+#show-results-button {
+  width: 150px;
+  font-family: 'Amaranth', sans-serif;
+  font-size: 25px;
+  text-align: center;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  color: #fff;
-  background-color: #111;
+  color: white;
+  background-color: #0073E6;
   position: relative;
   z-index: 0;
   margin: 30px auto 30px;
-  height: 30px;
-
+  height: 40px;
 }
 
 
-#show-results-btn:before {
+#show-results-button:before {
   content: '';
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background: #0073E6;
   position: absolute;
   top: -2px;
   left: -2px;
@@ -85,7 +90,7 @@ img {
 }
 
 #show-results-btn:active {
-  color: #000
+  color: #c9cde2;
 }
 
 
@@ -103,31 +108,20 @@ img {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #111;
+  background:#2546F0;
   left: 0;
   top: 0;
-
   border-radius: 10px;
-}
-
-@keyframes glowing {
-  0% {
-    background-position: 0 0;
-  }
-
-  50% {
-    background-position: 400% 0;
-  }
-
-  100% {
-    background-position: 0 0;
-  }
 }
 
 footer {
   height: 100px;
-  font-size: 1.5em;
-  text-align: right;
+  font-size: 1.75em;
+  text-align: left;
   margin-right: 20px;
-  color: #7e57c2
+  margin-left: 20px;
+  color: #7e57c2;
+  position: relative;
+  bottom: -120px;
+  margin-bottom: 50px;
 }
