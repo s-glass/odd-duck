@@ -13,7 +13,6 @@ let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 let resultsButton = document.getElementById('show-results-button');
-// let resultsList = document.getElementById('results-container');
 
 // ***** CANVAS ELEMENT FOR CHART *****
 let ctx = document.getElementById('my-chart');
@@ -24,17 +23,14 @@ function Item(name, fileExtension = 'jpg') {
   this.image = `img/${name}.${fileExtension}`;
   this.votes = 0;
   this.views = 0;
-  // itemArray.push(this);
 }
 
 // ****** HELPER FUNCTIONS / UTILITIES ******
 
 function randomIndex() {
   return Math.floor(Math.random() * itemArray.length);
-}
 
 function renderImg() {
-
 
   while(photoArray.length < 6){
     let randNum = randomIndex();
@@ -44,42 +40,24 @@ function renderImg() {
 }
   console.log(photoArray);
 
-  // let imgOneIndex = randomIndex();
-  // let imgTwoIndex = randomIndex();
-  // let imgThreeIndex = randomIndex();
-  // console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
-
-  // while (imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
-  //   imgTwoIndex = randomIndex();
-  //   imgThreeIndex = randomIndex();
-  // }
-
-
-// need to make a slight change here because even with the 6 number array - 2 unique rounds, you're not using all of them, just the last 3. How do you get to the front numbers of the array? 
   let imgOneIndex = photoArray.shift();
   let imgTwoIndex = photoArray.shift();
   let imgThreeIndex = photoArray.shift();
 
-
   imgOne.src = itemArray[imgOneIndex].image;
   imgOne.alt = itemArray[imgOneIndex].name;
-  // imgOne.alt = `this is an image of ${itemArray[imgOneIndex].name}`;
 
   imgTwo.src = itemArray[imgTwoIndex].image;
   imgTwo.alt = itemArray[imgTwoIndex].name;
-  // imgTwo.alt = `this is an image of ${itemArray[imgTwoIndex].name}`;
 
   imgThree.src = itemArray[imgThreeIndex].image;
   imgThree.alt = itemArray[imgThreeIndex].name;
-  // imgThree.alt = `this is an image of ${itemArray[imgThreeIndex].name}`;
 
   // TODO: increase the views on the images
   itemArray[imgOneIndex].views++;
   itemArray[imgTwoIndex].views++;
   itemArray[imgThreeIndex].views++;
 }
-
-
 
 // *** Helper Function TO RENDER CHART ***
 
@@ -123,7 +101,6 @@ let chartObj = {
   }
 };
 
-
   new Chart(ctx, chartObj); //eslint-disable-line
 }
 
@@ -150,17 +127,11 @@ function handleImgClick(event) {
   // TODO: once votings are done - stop the click
   if (votingRounds === 0) {
     imgContainer.removeEventListener('click', handleImgClick);
-    // document.getElementById('show-results-button').style = 'visiblity: visible';
   }
 }
 
 function handleShowResults() {
   if (votingRounds === 0) {
-    // for (let i = 0; i < itemArray.length; i++) {
-    //   let itemListItem = document.createElement('li');
-    //   itemListItem.textContent = `${itemArray[i].name}: Views: ${itemArray[i].views} & Votes: ${itemArray[i].votes}`;
-    //   resultsList.appendChild(itemListItem);
-    // }
 
     renderChart();
 
