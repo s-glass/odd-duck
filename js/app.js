@@ -5,6 +5,7 @@ console.log('hello world!');
 // ******* GLOBALS *********
 let itemArray = [];
 let votingRounds = 25;
+let photoArray = [];
 
 // ******* DOM WINDOWS ********
 let imgContainer = document.getElementById('img-container');
@@ -12,10 +13,13 @@ let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 let resultsButton = document.getElementById('show-results-button');
-let resultsList = document.getElementById('results-container');
+// let resultsList = document.getElementById('results-container');
+
+// ***** CANVAS ELEMENT FOR CHART *****
+let ctx = document.getElementById('my-chart');
 
 // ******* CONSTRUCTOR FUNCTION ********
-function Item(name, fileExtension = 'jpg'){
+function Item(name, fileExtension = 'jpg') {
   this.name = name;
   this.image = `img/${name}.${fileExtension}`;
   this.votes = 0;
@@ -25,23 +29,38 @@ function Item(name, fileExtension = 'jpg'){
 
 // ****** HELPER FUNCTIONS / UTILITIES ******
 
-function randomIndex(){
+function randomIndex() {
   return Math.floor(Math.random() * itemArray.length);
 }
 
-function renderImg(){
-  // TODO: 3 images on the page
-  let imgOneIndex = randomIndex();
-  let imgTwoIndex = randomIndex();
-  let imgThreeIndex = randomIndex();
-  console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
-  // TODO: Make sure the images are unique
-  // ** COMPARE IMG 1 & IMG 2 while they are the same get a new randomIndex
-  // ** could you use another form of storage for indexes to do your validation against that? **
-  while(imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex){
-    imgTwoIndex = randomIndex();
-    imgThreeIndex = randomIndex();
+function renderImg() {
+
+
+  while(photoArray.length < 6){
+    let randNum = randomIndex();
+    if(!photoArray.includes(randNum)){
+      photoArray.push(randNum);
   }
+}
+  console.log(photoArray);
+
+  // let imgOneIndex = randomIndex();
+  // let imgTwoIndex = randomIndex();
+  // let imgThreeIndex = randomIndex();
+  // console.log(imgOneIndex, imgTwoIndex, imgThreeIndex);
+
+  // while (imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
+  //   imgTwoIndex = randomIndex();
+  //   imgThreeIndex = randomIndex();
+  // }
+
+
+// need to make a slight change here because even with the 6 number array - 2 unique rounds, you're not using all of them, just the last 3. How do you get to the front numbers of the array? 
+  let imgOneIndex = photoArray.shift();
+  let imgTwoIndex = photoArray.shift();
+  let imgThreeIndex = photoArray.shift();
+
+
   imgOne.src = itemArray[imgOneIndex].image;
   imgOne.alt = itemArray[imgOneIndex].name;
   // imgOne.alt = `this is an image of ${itemArray[imgOneIndex].name}`;
@@ -60,18 +79,64 @@ function renderImg(){
   itemArray[imgThreeIndex].views++;
 }
 
-// function randomIndex(){
-//   return Math.floor(Math.random() * itemArray.length);
-// }
 
-function handleImgClick(event){
+
+// *** Helper Function TO RENDER CHART ***
+
+function renderChart() {
+
+  let itemNames = [];
+  let itemVotes = [];
+  let itemViews = [];
+
+for (let i = 0; i < itemArray.length; i++) {
+  itemNames.push(itemArray[i].name);
+  itemVotes.push(itemArray[i].votes);
+  itemViews.push(itemArray[i].views);
+}
+
+let chartObj = {
+  type: 'bar',
+  data: {
+    labels: itemNames,
+    datasets: [{
+    label: '# of Votes',
+    data: itemVotes,
+    borderWidth: 2,
+    backgroundColor: ['#4f1cea'],
+    borderColor: ['white'],
+  },
+  {
+    label: '# of Views',
+    data: itemViews,
+    borderWidth: 2,
+    backgroundColor: ['#fcba03'],
+    borderColor: ['white'],
+  }]
+},
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+};
+
+
+  new Chart(ctx, chartObj); //eslint-disable-line
+}
+
+// *** EVENT HANDLERS ***
+
+function handleImgClick(event) {
   // TODO: Identify the image that was clicked
   let imgClicked = event.target.alt;
   console.dir(imgClicked);
 
   // TODO: Increase the number of clicks on that image
-  for(let i = 0; i < itemArray.length; i++){
-    if(imgClicked === itemArray[i].name){
+  for (let i = 0; i < itemArray.length; i++) {
+    if (imgClicked === itemArray[i].name) {
       itemArray[i].votes++;
     }
   }
@@ -83,19 +148,22 @@ function handleImgClick(event){
   renderImg();
 
   // TODO: once votings are done - stop the click
-  if(votingRounds === 0){
+  if (votingRounds === 0) {
     imgContainer.removeEventListener('click', handleImgClick);
-    document.getElementById('show-results-button').style = 'visiblity: visible';
+    // document.getElementById('show-results-button').style = 'visiblity: visible';
   }
 }
 
-function handleShowResults(){
-  if(votingRounds === 0){
-    for(let i = 0; i < itemArray.length; i++){
-      let itemListItem = document.createElement('li');
-      itemListItem.textContent = `${itemArray[i].name}: Views: ${itemArray[i].views} & Votes: ${itemArray[i].votes}`;
-      resultsList.appendChild(itemListItem);
-    }
+function handleShowResults() {
+  if (votingRounds === 0) {
+    // for (let i = 0; i < itemArray.length; i++) {
+    //   let itemListItem = document.createElement('li');
+    //   itemListItem.textContent = `${itemArray[i].name}: Views: ${itemArray[i].views} & Votes: ${itemArray[i].votes}`;
+    //   resultsList.appendChild(itemListItem);
+    // }
+
+    renderChart();
+
     resultsButton.removeEventListener('click', handleShowResults);
   }
 }
@@ -121,8 +189,9 @@ let unicornItem = new Item('unicorn');
 let watercanItem = new Item('water-can');
 let wineglassItem = new Item('wine-glass');
 
-itemArray.push(bagItem,bananaItem,bathroomItem,bootsItem,breakfastItem,bubblegumItem,chairItem,cthulhuItem,dogduckItem,dragonItem,penItem,petsweepItem,scissorsItem,sharkItem,sweepItem,tauntaunItem,unicornItem,watercanItem,wineglassItem);
+itemArray.push(bagItem, bananaItem, bathroomItem, bootsItem, breakfastItem, bubblegumItem, chairItem, cthulhuItem, dogduckItem, dragonItem, penItem, petsweepItem, scissorsItem, sharkItem, sweepItem, tauntaunItem, unicornItem, watercanItem, wineglassItem);
 console.log(itemArray);
+
 renderImg();
 
 imgContainer.addEventListener('click', handleImgClick);
